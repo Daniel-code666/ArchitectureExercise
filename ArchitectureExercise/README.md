@@ -26,3 +26,18 @@ o  Decisiones arquitectónicas relevantes.
 	-> Se establece métodos comunes o utilidades que pueden ser usados de manera transversal en la capa de Application
 	-> Se modulariza la inyección de dependencias con el motivo de hacer más claro y limpio el program.cs
 
+ACTUALIZACIÓN PARA DOCKER Y KUBERNETES
+
+o Docker: Se realiza la contenerización de la aplicación desarrollada en .NET, mediante la creación de un dockerfile multi-stage que permite separar el proceso de compilación 
+del entorno de ejecución. En la primera etapa, se ejecuta una imagen basada en dotnet/sdk para restaurar dependencias y compilar la aplicación, mientras que 
+en la segunda etapa se ejecuta una imagen optimizada para la correcta ejecución de los artefactos publicados.
+
+Se configura un archivo docker-compose.yml para ejecutar multiples servicios, en este caso la API desarrollada en .NET y una base de datos PostgreSQL. 
+Se crea la red interna para permitir la comunicación entre contenedores y la posterior interacción entre la API y la DB.
+
+o Kubernetes: Se crea un clúster de Kubernetes local para desplegar la API y la DB, y para ello se 
+generaron manifiestos de configuración de la API y el servicio de PostgreSQL. En El archivo de configuración se establecen las replicas iniciales con las que cuentan
+las aplicaciones. Se consifugra un archivo Service.yml, para permitir exponer el servicio dentro del clúster y facilitar la comunicacion 
+entre los diferentes componentes. Los recursos fueron aplicados al clúster Kubernetes con el comando kubectl apply, y se revisó el estado de los pods y de los services a través de 
+los comandos kubectl get pods y kubectl get services.
+
