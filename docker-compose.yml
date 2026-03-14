@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+
+  api:
+    container_name: architecture-exercise-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+    networks:
+      - architecture-network
+
+  postgres:
+    container_name: postgresql
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: Invoices
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - architecture-network
+
+networks:
+  architecture-network:
+
+volumes:
+  postgres_data:

@@ -19,6 +19,12 @@ builder.Services.AddDbContext<ArchitectureExerciseDBContext>(options => options.
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ArchitectureExerciseDBContext>();
+    dbContext.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
